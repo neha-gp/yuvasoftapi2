@@ -6,7 +6,7 @@ class Api::V1::CategoriesController < ApplicationController
   def index
     @categories = Category.page(params[:page] || 1).per(params[:per_page] || 5)
 
-    render json: {status: 'SUCCESS', message: 'Loaded all categories', code: 200, data: @categories, meta: { total_pages: @categories.total_pages, total_entries: @categories.total_entries }}, status: :ok
+    render json: {status: 'SUCCESS', message: 'Loaded all categories', code: 200, data: @categories, pagination: { total_pages: @categories.total_pages, total_entries: @categories.total_entries }}, status: :ok
   end
 
   # GET /categories/1

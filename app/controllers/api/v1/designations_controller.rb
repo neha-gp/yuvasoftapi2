@@ -6,7 +6,7 @@ class Api::V1::DesignationsController < ApplicationController
   def index
     @designations = Designation.page(params[:page] || 1).per(params[:per_page] || 5)
 
-    render json: {status: 'SUCCESS', message: 'Loaded all designations', code: 200, data: @designations, meta: { total_pages: @designations.total_pages, total_entries: @designations.total_entries }}, status: :ok
+    render json: {status: 'SUCCESS', message: 'Loaded all designations', code: 200, data: @designations, pagination: { total_pages: @designations.total_pages, total_entries: @designations.total_entries }}, status: :ok
   end
 
   # GET /designations/1

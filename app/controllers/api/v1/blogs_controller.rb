@@ -6,7 +6,7 @@ class Api::V1::BlogsController < ApplicationController
   def index
     @blogs = Blog.page(params[:page] || 1).per(params[:per_page] || 5)
 
-    render json: {status: 'SUCCESS', message: 'Loaded all blogs', code: 200, data: @blogs, meta: { total_pages: @blogs.total_pages, total_entries: @blogs.total_entries }}, status: :ok
+    render json: {status: 'SUCCESS', message: 'Loaded all blogs', code: 200, data: @blogs, pagination: { total_pages: @blogs.total_pages, total_entries: @blogs.total_entries }}, status: :ok
   end
 
   # GET /blogs/1

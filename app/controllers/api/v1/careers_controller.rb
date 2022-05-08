@@ -6,7 +6,7 @@ class Api::V1::CareersController < ApplicationController
   def index
     @careers = Career.page(params[:page] || 1).per(params[:per_page] || 5)
 
-    render json: {status: 'SUCCESS', message: 'Loaded all careers', code: 200, data: @careers, meta: { total_pages: @careers.total_pages, total_entries: @careers.total_entries }}, status: :ok
+    render json: {status: 'SUCCESS', message: 'Loaded all careers', code: 200, data: @careers, pagination: { total_pages: @careers.total_pages, total_entries: @careers.total_entries }}, status: :ok
   end
 
   # GET /careers/1
