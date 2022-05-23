@@ -4,9 +4,13 @@ class Api::V1::TeamsController < ApplicationController
 
   # GET /teams
   def index
-    @teams = Team.page(params[:page] || 1).per(params[:per_page] || 5)
-
-    render json: {status: 'SUCCESS', message: 'Loaded all teams', code: 200, data: @teams, pagination: { total_pages: @teams.total_pages, total_entries: @teams.total_entries }}, status: :ok
+    if params[:per] === 'all'
+      @teams = Team.all
+      render json: {status: 'SUCCESS', message: 'Loaded all teams', code: 200, data: @teams, pagination: {total_entries: "All" }}, status: :ok
+    elsif
+      @teams = Team.page(params[:page] || 1).per(params[:per_page] || 5)
+      render json: {status: 'SUCCESS', message: 'Loaded all teams', code: 200, data: @teams, pagination: { total_pages: @teams.total_pages, total_entries: @teams.total_entries }}, status: :ok
+    end
   end
 
   # GET /teams/1

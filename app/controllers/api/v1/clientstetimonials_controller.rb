@@ -4,9 +4,13 @@ class Api::V1::ClientstetimonialsController < ApplicationController
 
   # GET /clientstetimonials
   def index
-    @clientstetimonials = Clientstetimonial.page(params[:page] || 1).per(params[:per_page] || 5)
-
-    render json: {status: 'SUCCESS', message: 'Loaded all clientstetimonials', code: 200, data: @clientstetimonials, pagination: { total_pages: @clientstetimonials.total_pages, total_entries: @clientstetimonials.total_entries }}, status: :ok
+    if params[:per] === 'all'
+      @clientstetimonials = Clientstetimonial.all
+      render json: {status: 'SUCCESS', message: 'Loaded all clientstetimonials', code: 200, data: @clientstetimonials, pagination: {total_entries: "All" }}, status: :ok
+    elsif
+      @clientstetimonials = Clientstetimonial.page(params[:page] || 1).per(params[:per_page] || 5)
+      render json: {status: 'SUCCESS', message: 'Loaded all clientstetimonials', code: 200, data: @clientstetimonials, pagination: { total_pages: @clientstetimonials.total_pages, total_entries: @clientstetimonials.total_entries }}, status: :ok
+    end
   end
 
   # GET /clientstetimonials/1

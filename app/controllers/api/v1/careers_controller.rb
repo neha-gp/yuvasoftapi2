@@ -4,9 +4,13 @@ class Api::V1::CareersController < ApplicationController
 
   # GET /careers
   def index
-    @careers = Career.page(params[:page] || 1).per(params[:per_page] || 5)
-
-    render json: {status: 'SUCCESS', message: 'Loaded all careers', code: 200, data: @careers, pagination: { total_pages: @careers.total_pages, total_entries: @careers.total_entries }}, status: :ok
+    if params[:per] === 'all'
+      @careers = Career.all
+      render json: {status: 'SUCCESS', message: 'Loaded all careers', code: 200, data: @careers, pagination: {total_entries: "All" }}, status: :ok
+    elsif
+      @careers = Career.page(params[:page] || 1).per(params[:per_page] || 5)
+      render json: {status: 'SUCCESS', message: 'Loaded all careers', code: 200, data: @careers, pagination: { total_pages: @careers.total_pages, total_entries: @careers.total_entries }}, status: :ok
+    end
   end
 
   # GET /careers/1

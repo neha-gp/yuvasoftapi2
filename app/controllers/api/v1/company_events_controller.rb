@@ -4,9 +4,13 @@ class Api::V1::CompanyEventsController < ApplicationController
 
   # GET /company_events
   def index
-    @company_events = CompanyEvent.page(params[:page] || 1).per(params[:per_page] || 5)
-
-    render json: {status: 'SUCCESS', message: 'Loaded all company_events', code: 200, data: @company_events, pagination: { total_pages: @company_events.total_pages, total_entries: @company_events.total_entries }}, status: :ok
+    if params[:per] === 'all'
+      @company_events = CompanyEvent.all
+      render json: {status: 'SUCCESS', message: 'Loaded all company_events', code: 200, data: @company_events, pagination: {total_entries: "All" }}, status: :ok
+    elsif
+      @company_events = CompanyEvent.page(params[:page] || 1).per(params[:per_page] || 5)
+      render json: {status: 'SUCCESS', message: 'Loaded all company_events', code: 200, data: @company_events, pagination: { total_pages: @company_events.total_pages, total_entries: @company_events.total_entries }}, status: :ok
+    end
   end
 
   # GET /company_events/1

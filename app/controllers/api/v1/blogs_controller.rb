@@ -4,9 +4,13 @@ class Api::V1::BlogsController < ApplicationController
 
   # GET /blogs
   def index
-    @blogs = Blog.page(params[:page] || 1).per(params[:per_page] || 5)
-
-    render json: {status: 'SUCCESS', message: 'Loaded all blogs', code: 200, data: @blogs, pagination: { total_pages: @blogs.total_pages, total_entries: @blogs.total_entries }}, status: :ok
+    if params[:per] === 'all'
+      @blogs = Blog.all
+      render json: {status: 'SUCCESS', message: 'Loaded all blogs', code: 200, data: @blogs, pagination: {total_entries: "All" }}, status: :ok
+    elsif
+      @blogs = Blog.page(params[:page] || 1).per(params[:per_page] || 5)
+      render json: {status: 'SUCCESS', message: 'Loaded all blogs', code: 200, data: @blogs, pagination: { total_pages: @blogs.total_pages, total_entries: @blogs.total_entries }}, status: :ok
+    end
   end
 
   # GET /blogs/1

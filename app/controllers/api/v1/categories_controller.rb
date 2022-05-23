@@ -4,9 +4,13 @@ class Api::V1::CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = Category.page(params[:page] || 1).per(params[:per_page] || 5)
-
-    render json: {status: 'SUCCESS', message: 'Loaded all categories', code: 200, data: @categories, pagination: { total_pages: @categories.total_pages, total_entries: @categories.total_entries }}, status: :ok
+    if params[:per] === 'all'
+      @categories = Category.all
+      render json: {status: 'SUCCESS', message: 'Loaded all categories', code: 200, data: @categories, pagination: {total_entries: "All" }}, status: :ok
+    elsif
+      @categories = Category.page(params[:page] || 1).per(params[:per_page] || 5)
+      render json: {status: 'SUCCESS', message: 'Loaded all categories', code: 200, data: @categories, pagination: { total_pages: @categories.total_pages, total_entries: @categories.total_entries }}, status: :ok
+    end
   end
 
   # GET /categories/1

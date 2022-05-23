@@ -4,9 +4,13 @@ class Api::V1::DesignationsController < ApplicationController
 
   # GET /designations
   def index
-    @designations = Designation.page(params[:page] || 1).per(params[:per_page] || 5)
-
-    render json: {status: 'SUCCESS', message: 'Loaded all designations', code: 200, data: @designations, pagination: { total_pages: @designations.total_pages, total_entries: @designations.total_entries }}, status: :ok
+    if params[:per] === 'all'
+      @designations = Designation.all
+      render json: {status: 'SUCCESS', message: 'Loaded all designations', code: 200, data: @designations, pagination: {total_entries: "All" }}, status: :ok
+    elsif
+      @designations = Designation.page(params[:page] || 1).per(params[:per_page] || 5)
+      render json: {status: 'SUCCESS', message: 'Loaded all designations', code: 200, data: @designations, pagination: { total_pages: @designations.total_pages, total_entries: @designations.total_entries }}, status: :ok
+    end
   end
 
   # GET /designations/1
